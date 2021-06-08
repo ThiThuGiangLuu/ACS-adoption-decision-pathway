@@ -1,1 +1,1 @@
-# Farmer-Decision-Pathway-in-ACIS
+# ACS-Diffusion-Innovation-Adoption-Pathway

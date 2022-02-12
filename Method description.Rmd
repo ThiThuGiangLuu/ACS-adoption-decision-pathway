@@ -137,11 +137,11 @@ Test outcomes   |  Meaning
  ---------------|  -------------- 
  total_n   |  total observations of "access" in all "need[yes]" and "need[no] conditions"
  Intervention_subset   |  list all the "access[yes]" and "access[no]"observation in the presence of "need[yes]"
- x1_intervention_subset_success   |  number of "access[yes]" attributable to "need[yes}" (x1)
+ x1_intervention_subset_success   |  number of "access[yes]" attributable to "need[yes]" (x1)
  n1_intervention_subset_n   |  length of intervention_subset (n1)
  yes_rate_intervention_subset   |  successful "access" rate in the presence of "need[yes]" (x1/n1)
  Control_subset  |  list all the "access[yes]" and "access[no]"observation in the presence of "need[no]" 
- x2_control_subset_success   |  number of "access[yes]" attributable to "need[no}" (x2)
+ x2_control_subset_success   |  number of "access[yes]" attributable to "need[no]" (x2)
  n2_control_subset_n   |  length of control_subset (n2)
  yes_rate_control_subset   |  successful "access" rate in the presence of "need[no]" (x2/n2)
  CI   |  Confidence interval of "access" rate difference between VSLA farmers who have "need" and VSLA farmers without "need"

@@ -204,6 +204,7 @@ summary {
 <li><a href="#implement-the-test-for-the-agro-climate-service-delivery-and-adoption-impact-pathway">Implement the test for the agro-climate service delivery and adoption impact pathway</a></li>
 </ul></li>
 <li><a href="#acknowledgements">Acknowledgements</a></li>
+<li><a href="#annex-with-full-r-code-of-the-model">Annex with full R code of the model</a></li>
 <li><a href="#references">References</a></li>
 </ul>
 </div>
@@ -324,7 +325,7 @@ vslaneed_access &lt;- test_relationship(vsla,&quot;need&quot;,&quot;access&quot;
 </tr>
 <tr class="odd">
 <td>x1_intervention_subset_success</td>
-<td>number of “access[yes]” attributable to “need[yes}” (x1)</td>
+<td>number of “access[yes]” attributable to “need[yes]” (x1)</td>
 </tr>
 <tr class="even">
 <td>n1_intervention_subset_n</td>
@@ -340,7 +341,7 @@ vslaneed_access &lt;- test_relationship(vsla,&quot;need&quot;,&quot;access&quot;
 </tr>
 <tr class="odd">
 <td>x2_control_subset_success</td>
-<td>number of “access[yes]” attributable to “need[no}” (x2)</td>
+<td>number of “access[yes]” attributable to “need[no]” (x2)</td>
 </tr>
 <tr class="even">
 <td>n2_control_subset_n</td>
@@ -399,6 +400,205 @@ vslaneed_access &lt;- test_relationship(vsla,&quot;need&quot;,&quot;access&quot;
 <div id="acknowledgements" class="section level1">
 <h1>Acknowledgements</h1>
 <p>We acknowledge the valuable support from CARE International in Vietnam and the Centre for Community Development in Dien Bien. We are especially grateful to the support of Ms. Huong Tong from the Centre for Community Development in Dien Bien and other local collaborators for their excellent support in arranging interviews in Dien Bien. This research would not have been possible without the active participation of the farmers who were willing to share their personal experiences in using agro-climate services.</p>
+</div>
+<div id="annex-with-full-r-code-of-the-model" class="section level1">
+<h1>Annex with full R code of the model</h1>
+<pre class="r"><code>library(gsDesign)
+library(ggplot2)
+
+#Function to test difference of the two binomial rates
+#Ref. Eike&#39;s function to test relationship----
+
+test_relationship&lt;-function(data, intervention, impact)
+{
+  
+  # Intervention means causal event with [yes] observation
+  # But for simplification, we call it &quot;intervention&quot;.
+  # intervention_subset: List all the impact observation under intervention condition 
+  # Check the return results in the global environment for more details of the calculation
+  # Remove NAs value. Otherwise it will also count NA value as 1
+  intervention_subset &lt;- na.exclude(data[data[intervention]==1, impact] )
+  
+  # control_subset: List all the impact observation under control condition 
+  # control means causal variable with [no] observation. It might not really be control. 
+  # However, to make it simple, we call it &quot;control&quot;.
+  # Remove NAs value. Otherwise it will also count NA value as 0
+  control_subset &lt;- na.exclude(data[data[intervention]==0, impact] )
+  
+  #n of intervention. This length is also equal to the count of impact observation under intervention condition
+  intervention_subset_n &lt;- length(intervention_subset)
+  
+  #n of control. The length is also equal to the count of impact observations under control condition 
+  control_subset_n &lt;- length(control_subset)
+  
+  #filtering for &#39;1&#39; to get success count
+  intervention_subset_success &lt;- length(which(intervention_subset==1))
+  
+  #filter for &#39;1&#39; to count success despite no intervention
+  control_subset_success &lt;- length(which(control_subset==1))
+ 
+  
+  #Confidence interval of likelihood of same outcome in control condition
+  confinf&lt;-ciBinomial(x1 = intervention_subset_success, #number of success in attributable to intervention
+                      x2 = control_subset_success, #number of success attributable to control
+                      n1 = intervention_subset_n, #length of impact observation under intervention
+                      n2 = control_subset_n) #length of impact observation under control
+  
+  
+  return(list(#n observation under all conditions
+              total_n = intervention_subset_n+control_subset_n, 
+              # Return observations under intervention  
+              Intervention_subset=intervention_subset, 
+              #x1 for success under intervention
+              x1_intervention_subset_success=intervention_subset_success,
+              #n1 for all interventions
+              n1_intervention_subset_n = intervention_subset_n,
+              #rate of success for intervention group
+              yes_rate_intervention_subset = length(which(intervention_subset==1))/(intervention_subset_n),
+              # Return observations under control
+              Control_subset=control_subset,
+              #x2 for success under control
+              x2_control_subset_success=control_subset_success,
+              #n2 for all control
+              n2_control_subset_n = control_subset_n,
+              #rate of success despite no intervention
+              yes_rate_control_subset = length(which(control_subset==1))/(control_subset_n),
+              #Confidence intervals for rate of success in intervention condition compared with control condition
+              CI = confinf ))
+}
+
+# error checkRange: Error in checkRange(x, ..., varname = deparse(substitute(x))) : n1 not on interval [1, Inf] 
+# can not return result if there is no &quot;control&quot;n1=0 or &quot;experiment&quot;n2=0, 
+
+#Subsetting data for analysis####
+diffusion &lt;- read.csv(&quot;diffusion.csv&quot;, header=TRUE)
+#VSLA dataset####
+vsla&lt;-subset(diffusion,VSLA==&quot;1&quot;)
+#write.csv(vsla, &quot;vsla-table.csv&quot;)
+
+#non-VSLA dataset####
+nonvsla&lt;-subset(diffusion,VSLA==&quot;0&quot;)
+#write.csv(nonvsla, &quot;nonvsla-table.csv&quot;)
+#
+vsla$total_adopt
+nonvsla$total_adopt
+#Subset VSLA and non-VSLA who adopted ACIS: to analyze dynamics of adoption####
+adopt&lt;-subset(diffusion, total_adopt==&quot;1&quot;)
+vslaadopt&lt;-subset(adopt,VSLA==&quot;1&quot;)
+nonvslaadopt&lt;-subset(adopt,VSLA==&quot;0&quot;)
+
+#I. VSLA and non-VSLA testing: Adopting pathway####
+#Subset VSLA data
+vsla&lt;-subset(diffusion,VSLA==&quot;1&quot;)
+
+#1.1 VSLA TESTING risk occurance and risk perception----
+
+vsladisaster_perception &lt;- test_relationship(vsla,&quot;risk&quot;,&quot;risk_impact&quot;)
+
+#1.2 Non-VSLA TESTING risk occurance and risk perception----
+
+nonvslarisk_perception &lt;- test_relationship(nonvsla,&quot;risk&quot;,&quot;risk_impact&quot;)
+
+#2.1 VSLA TESTING risk impact and need----
+
+vslarisk_need &lt;- test_relationship(vsla,&quot;risk_impact&quot;,&quot;need&quot;)
+
+#2.2 Non VSLA TESTING risk impact and need----
+
+nonvslarisk_need &lt;- test_relationship(nonvsla,&quot;risk_impact&quot;,&quot;need&quot;)
+
+#3.1 VSLA TESTING need and access----
+
+vslaneed_access &lt;- test_relationship(vsla,&quot;need&quot;,&quot;access&quot;)
+
+#3.2 nonVSLA TESTING need and access----
+
+nonvslaneed_access &lt;- test_relationship(nonvsla,&quot;need&quot;,&quot;access&quot;)
+#4.1 VSLA TESTING access and total read_listen----
+
+vslaaccess_totalreadlisten &lt;- test_relationship(vsla,&quot;access&quot;,&quot;total_readlisten&quot;)
+
+#4.2.NonVSLA TESTING access and total read_listen----
+
+nonvslaaccess_totalreadlisten &lt;- test_relationship(nonvsla,&quot;access&quot;,&quot;total_readlisten&quot;)
+
+
+#5.1 VSLA TESTING total read_listen and total discuss----
+
+vslatotalreadlisten_discuss &lt;- test_relationship(vsla,&quot;total_readlisten&quot;, &quot;total_discuss&quot;)
+
+#5.2 nonVSLA TESTING total read_listen and total discuss----
+
+nonvslatotalreadlisten_discuss &lt;- test_relationship(nonvsla,&quot;total_readlisten&quot;, &quot;total_discuss&quot;)
+
+
+#6.1 VSLA TESTING total discuss and total understand----
+
+vsla_total_discuss_understand &lt;- test_relationship(vsla, &quot;total_discuss&quot;,&quot;total_understand&quot;)
+
+
+#6.2 NonVSLA TESTING total discuss and total understand----
+
+nonvsla_total_discuss_understand &lt;- test_relationship(nonvsla, &quot;total_discuss&quot;,&quot;total_understand&quot;)
+
+#7.1 VSLA TESTING total read_listen and total_understand----
+
+vsla_total_readlisten_understand &lt;- test_relationship(vsla, &quot;total_readlisten&quot;,&quot;total_understand&quot;)
+
+#7.2 nonVSLA TESTING total read_listen and total_understand----
+
+nonvsla_total_readlisten_understand &lt;- test_relationship(nonvsla, &quot;total_readlisten&quot;,&quot;total_understand&quot;)
+
+
+#8.1 VSLATESTING total understand and total perceive ACS positively----
+
+vsla_total_understand_totalposper &lt;- test_relationship(vsla, &quot;total_understand&quot;, &quot;total_posperception&quot;)
+
+#8.2 nonVSLATESTING total understand and total perceive ACS positively----
+
+nonvsla_total_understand_totalposper &lt;- test_relationship(nonvsla, &quot;total_understand&quot;, &quot;total_posperception&quot;)
+
+#9.1 VSLATESTING total perceive ACS positively and total intention to apply----
+
+vsla_total_posper_intention &lt;- test_relationship(vsla, &quot;total_posperception&quot;, &quot;total_intention&quot;)
+
+
+#9.2 Non-VSLA TESTING total perceive ACS positively and total decide to apply----
+
+nonvsla_total_posper_intention &lt;- test_relationship(nonvsla, &quot;total_posperception&quot;, &quot;total_intention&quot;)
+
+
+#10.1 VSLATESTING intention to adopt and total adoption----
+
+vsla_total_intention_adopt &lt;- test_relationship(vsla, &quot;total_intention&quot;, &quot;total_adopt&quot;)
+
+#10.2 non-VSLATESTING intention to adopt and total adoption----
+
+nonvsla_total_intention_adopt &lt;- test_relationship(nonvsla, &quot;total_intention&quot;, &quot;total_adopt&quot;)
+
+#II. Dynamics of adoption####
+
+#1.TESTING VSLA and confirm need among adopters----
+
+#Subset VSLA and non-VSLA who adopted ACS only
+adopt&lt;-subset(diffusion, total_adopt==&quot;1&quot;)
+vsla_confirm2 &lt;- test_relationship(adopt,&quot;VSLA&quot;,&quot;confirm_need2&quot;)
+
+#2.TESTING VSLA and scale-out (recommendation)----
+
+vsla_recommend &lt;- test_relationship(adopt,&quot;VSLA&quot;,&quot;recommend&quot;)
+
+#3. What advice do farmers dis-adopt####
+# Seed dis-adoption
+seed_disadoption&lt;-ciBinomial(15, 17, 38, 38, alpha = 0.05, adj = 0, scale = &quot;Difference&quot;)
+#-26-16%#
+fertilizer_disadoption&lt;-ciBinomial(9, 4, 39, 36, alpha = 0.05, adj = 0, scale = &quot;Difference&quot;)
+#-5-29%#
+plant_protection_disadoption&lt;-ciBinomial(8, 8, 39, 37, alpha = 0.05, adj = 0, scale = &quot;Difference&quot;)
+#-19-17%#
+water_management_disadoption&lt;-ciBinomial(15, 12, 39, 38, alpha = 0.05, adj = 0, scale = &quot;Difference&quot;)
+#-14-27%#
+?ciBinomial</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>

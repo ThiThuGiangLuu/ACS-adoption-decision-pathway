@@ -1,5 +1,6 @@
-library(gsDesign)
 library(ggplot2)
+library(gsDesign)
+
 
 #Function to test difference of the two binomial rates
 #Ref. Eike's function to test relationship----
@@ -193,7 +194,7 @@ plant_protection_disadoption<-ciBinomial(8, 8, 39, 37, alpha = 0.05, adj = 0, sc
 #-19-17%#
 water_management_disadoption<-ciBinomial(15, 12, 39, 38, alpha = 0.05, adj = 0, scale = "Difference")
 #-14-27%#
-?ciBinomial
+
 
 
 

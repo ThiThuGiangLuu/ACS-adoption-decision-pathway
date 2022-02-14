@@ -152,7 +152,13 @@ vslaneed_access
 ```
 # Acknowledgements
 
-We acknowledge the valuable support from CARE International in Vietnam and the Centre for Community Development in Dien Bien. We are especially grateful to the support of Ms. Huong Tong from the Centre for Community Development in Dien Bien and other local collaborators for their excellent support in arranging interviews in Dien Bien. This research would not have been possible without the active participation of the farmers who were willing to share their personal experiences in using agro-climate services.   
+We acknowledge the valuable support from CARE International in Vietnam and the Centre for Community Development in Dien Bien. We are especially grateful to the support of Ms. Huong Tong from the Centre for Community Development in Dien Bien and other local collaborators for their excellent support in arranging interviews in Dien Bien. This research would not have been possible without the active participation of the farmers who were willing to share their personal experiences in using agro-climate services.  
+
+# Annex with full R code of the model
+
+```{r, eval=FALSE, code=xfun::read_utf8('Diffusion.R')}
+
+```
 
 
 # References

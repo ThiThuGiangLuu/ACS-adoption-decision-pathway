@@ -104,7 +104,7 @@ test_relationship<-function(data, intervention, impact)
 }
 ```
 
-After obtaining the confidence interval value, we interpret the causal relation of the causal and resulting events using our proposed procedure. The procedure aims at interpreting CI in a practical context. In this procedure, we compare CI with a pre-defined range of practical indifference. If the CI lays completely within the range of practical indifference, the difference was considered practically irrelevant or trivial. We also considered other possibilities of the CI value when compared with the range of practical indifference that might lead to other possible interpretations. Depending on the range of CI, we considered the causal and resulting events to have no, potential, weak, moderate or strong relationships. We adapted the matrix of the strength of evidence by [@mcbride_assessing_2013] and proposed our interpretation of CI for the difference of the two proportions (see below Table). 
+The procedure aims at interpreting CI in a practical context. In this procedure, we compare CI with a pre-defined range of practical indifference. If the CI lays completely within the range of practical indifference, the difference was considered practically irrelevant or trivial. We also considered other possibilities of the CI value when compared with the range of practical indifference that might lead to other possible interpretations. Depending on the range of CI, we considered the causal and resulting events to have no, potential, weak, moderate or strong relationships. We adapted the matrix of the strength of evidence by [@mcbride_assessing_2013] and proposed our interpretation of CI for the difference of the two proportions (see below Table). 
 
 ```{r, out.width="70%", fig.align="center", fig.cap="Quantification of the strength of causal relations between causal and resulting events,  which are both binomially distributed. ", echo=FALSE}
 knitr::include_graphics('Figures-tables/Table 3.png', dpi=NA)
@@ -113,8 +113,7 @@ knitr::include_graphics('Figures-tables/Table 3.png', dpi=NA)
 
 ### Implement the test for the agro-climate service delivery and adoption impact pathway
 
-We test the causal relations of each sub-hypothesis described in the hypothesized ACS delivery and adoption impact pathway using testing function `test_relationship`. For example, we test the difference between access rate among village saving and loan association (VSLA) farmers needing and not needing ACS in the following function.  
-
+We test the causal relations of each sub-hypothesis described in the hypothesized ACS delivery and adoption impact pathway using testing function `test_relationship`. For example, with the following code, we test the difference between access rate among village saving and loan association (VSLA) farmers needing and not needing ACS:
 
 ```{r, warning=FALSE}
 # Subsetting VSLA data for analysis
@@ -127,8 +126,7 @@ vslaneed_access <- test_relationship(vsla,"need","access")
 
 ```
 
-Below is the test outcomes of the relationship between "need" and "access", in which
-
+We test outcomes of the relationship between "need" and "access", in which:
 
 Test outcomes   |  Meaning
  ---------------|  -------------- 

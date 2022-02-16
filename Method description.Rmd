@@ -17,18 +17,15 @@ library(gsDesign)
 options(knitr.table.format = "html")
 ```
 
-# Method for testing causal relationship
+# Testing causal relationships
 
-In this document causal relationships of events in the delivery and impact of agro-climate services (ACS) in two farmers groups in Dien Bien, Vietnam. 
-The testing is programmed with the `gsDesign` package [@anderson_gsdesign_2021]. The full testing procedure is available in the [ACS-adoption-Pathway repository](https://github.com/ThiThuGiangLuu/ACS-adoption-decision-pathway). 
+Here we test causal relationships of events in the delivery and impact of agro-climate services (ACS) in two farmers groups in Dien Bien, Vietnam. The tests are programmed in the R programming language [@r_core_team_r:_2020]. We use the `gsDesign` package [@anderson_gsdesign_2021] for the specific tests. The full testing procedure is available in the [ACS-adoption-Pathway repository](https://github.com/ThiThuGiangLuu/ACS-adoption-decision-pathway). 
 
-### Description of variables collected from farmer survey 
+### Variables collected in a farmer survey 
 
-`diffusion-variable-description.xlsx` contains data for general statistics and for testing. The tables contains information including name of variable; description of variable, type of variable values and which question is the questionnaire was used to get the data for that variable. Download the table from the [ACS-adoption-Pathway repository](https://github.com/ThiThuGiangLuu/ACS-adoption-decision-pathway).
+`diffusion-variable-description.xlsx` contains descriptions of variables, variable values and questions that we asked to gather the necessary data for that variable. Download the table from the [ACS-adoption-Pathway repository](https://github.com/ThiThuGiangLuu/ACS-adoption-decision-pathway).
 
-### Data table 
-
-The data table `diffusion.csv` contains surveyed data for general statistics and data used for testing. The table includes the variable names and its values. Download the table from the [ACS-adoption-Pathway repository](https://github.com/ThiThuGiangLuu/ACS-adoption-decision-pathway).
+The data table `diffusion.csv` contains the variable names and values. Download the table from the [ACS-adoption-Pathway repository](https://github.com/ThiThuGiangLuu/ACS-adoption-decision-pathway).
 
 We call the data file for analysis
 
@@ -38,12 +35,13 @@ diffusion <- read.csv("diffusion.csv", header=TRUE)
 
 ### Development of the test function 
 
-The testing function `test_relationship` described in this document is programmed in the R programming language [@r_core_team_r:_2020]. The testing function that is described here can also be found in the [ACS-adoption-Pathway repository](https://github.com/ThiThuGiangLuu/ACS-adoption-decision-pathway). 
+The testing function `test_relationship` is designed to validate causal relationships obtained from farmer surveys. The tested causal relationships are between causal events and resulting events (both binomially distributed). We perform the test by comparing two **success** rates of the **resulting event** brought about in the presence and absence of the hypothesized **causal event**. The two success rates are calculated as: 
 
-The testing is aimed for validating causal relationships between causal and resulting events, which are both binomially distributed. We do so by comparing the two "success" rates of the resulting event brought about in the presence and absence of the "hypothesized" causal event. The two success rates are calculated as the probability of observing “successful event” together with causal event [yes] observations and the probability to observe “successful event”/ [yes] observations together with causal event [no] observations. These observations are obtained from farmer survey sample. 
+1. the probability of observing **successful event** together with **causal event** [yes] observations and 
+
+2. the probability to observe **successful event**/ [yes] observations together with **causal event** [no] observations.  
 
 We use the `ciBinomial` function in `gsDesign` package [@anderson_gsdesign_2021] to calculate the confidence interval (CI) of the difference between the two rates. 
-
 
 The test outcomes include the observation of both intervention and impact events, the success rates and the confidence intervals of the difference between the two success rates.  
 

@@ -19,8 +19,7 @@ options(knitr.table.format = "html")
 
 # Method for testing causal relationship
 
-This document describes the testing function for a relationship between a causal and a result events. 
-The document also contains the implementation of the test function for causal relations of events in the delivery and impact pathway of agro-climate services (ACS) in two farmers groups in Dien Bien, Vietnam. 
+In this document causal relationships of events in the delivery and impact of agro-climate services (ACS) in two farmers groups in Dien Bien, Vietnam. 
 The testing is programmed with the `gsDesign` package [@anderson_gsdesign_2021]. The full testing procedure is available in the [ACS-adoption-Pathway repository](https://github.com/ThiThuGiangLuu/ACS-adoption-decision-pathway). 
 
 ### Description of variables collected from farmer survey 

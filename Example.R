@@ -1,3 +1,6 @@
+# CW NOTE ####
+# We should include just the packages we use
+# there are many here
 library(binom)
 library(cowplot)
 library(ggplot2)
@@ -63,7 +66,8 @@ test_relationship<-function(data, intervention, impact)
 }
 
 
-
+# CW NOTE ####
+# this data is missing - I cannot test the function with this
 example <- read.csv("example.csv", header=TRUE)
 
 understand_apply <- test_relationship(example,"understand","apply")

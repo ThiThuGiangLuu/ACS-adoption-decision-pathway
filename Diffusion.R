@@ -89,12 +89,13 @@ nonvslaadopt<-subset(adopt,VSLA=="0")
 #Subset VSLA data
 vsla<-subset(diffusion,VSLA=="1")
 
-#1.1 VSLA TESTING risk occurance and risk perception----
+#1.1 VSLA TESTING risk occurrence and risk perception----
 # CW NOTE ####
-# some issues here. Maybe becuase of NA in the data. Did you apply that change here? 
+# # Error in checkRange(x, ..., varname = deparse(substitute(x))) : n2 not on interval [1, Inf]
+# some issues here. Maybe because of NA in the data. Did you apply that change here? 
 vsladisaster_perception <- test_relationship(vsla,"risk","risk_impact")
 
-#1.2 Non-VSLA TESTING risk occurance and risk perception----
+#1.2 Non-VSLA TESTING risk occurrence and risk perception----
 
 nonvslarisk_perception <- test_relationship(nonvsla,"risk","risk_impact")
 
@@ -114,13 +115,15 @@ vslaneed_access <- test_relationship(vsla,"need","access")
 
 nonvslaneed_access <- test_relationship(nonvsla,"need","access")
 #4.1 VSLA TESTING access and total read_listen----
+# CW NOTE ####
+# # Error in checkRange(x, ..., varname = deparse(substitute(x))) : n2 not on interval [1, Inf]
+# same issue here. 
 
 vslaaccess_totalreadlisten <- test_relationship(vsla,"access","total_readlisten")
 
 #4.2.NonVSLA TESTING access and total read_listen----
 
 nonvslaaccess_totalreadlisten <- test_relationship(nonvsla,"access","total_readlisten")
-
 
 #5.1 VSLA TESTING total read_listen and total discuss----
 
@@ -134,7 +137,6 @@ nonvslatotalreadlisten_discuss <- test_relationship(nonvsla,"total_readlisten", 
 #6.1 VSLA TESTING total discuss and total understand----
 
 vsla_total_discuss_understand <- test_relationship(vsla, "total_discuss","total_understand")
-
 
 #6.2 NonVSLA TESTING total discuss and total understand----
 
@@ -158,7 +160,9 @@ vsla_total_understand_totalposper <- test_relationship(vsla, "total_understand",
 nonvsla_total_understand_totalposper <- test_relationship(nonvsla, "total_understand", "total_posperception")
 
 #9.1 VSLATESTING total perceive ACS positively and total intention to apply----
-
+# CW NOTE ####
+# Error in checkRange(x, ..., varname = deparse(substitute(x))) : n2 not on interval [1, Inf]
+# same issue here.
 vsla_total_posper_intention <- test_relationship(vsla, "total_posperception", "total_intention")
 
 

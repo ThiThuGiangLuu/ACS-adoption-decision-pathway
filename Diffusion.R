@@ -63,6 +63,8 @@ test_relationship<-function(data, intervention, impact)
               CI = confinf ))
 }
 
+# CW NOTE ####
+# remove error messages if these are no longer valid
 # error checkRange: Error in checkRange(x, ..., varname = deparse(substitute(x))) : n1 not on interval [1, Inf] 
 # can not return result if there is no "control"n1=0 or "experiment"n2=0, 
 
@@ -88,7 +90,8 @@ nonvslaadopt<-subset(adopt,VSLA=="0")
 vsla<-subset(diffusion,VSLA=="1")
 
 #1.1 VSLA TESTING risk occurance and risk perception----
-
+# CW NOTE ####
+# some issues here. Maybe becuase of NA in the data. Did you apply that change here? 
 vsladisaster_perception <- test_relationship(vsla,"risk","risk_impact")
 
 #1.2 Non-VSLA TESTING risk occurance and risk perception----

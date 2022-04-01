@@ -87,11 +87,11 @@ nonvslaadopt<-subset(adopt,VSLA=="0")
 #Subset VSLA data
 vsla<-subset(diffusion,VSLA=="1")
 
-#1.1 VSLA TESTING risk occurance and risk perception----
+#1.1 VSLA TESTING risk occurrence and risk perception----
 
 vsladisaster_perception <- test_relationship(vsla,"risk","risk_impact")
 
-#1.2 Non-VSLA TESTING risk occurance and risk perception----
+#1.2 Non-VSLA TESTING risk occurrence and risk perception----
 
 nonvslarisk_perception <- test_relationship(nonvsla,"risk","risk_impact")
 

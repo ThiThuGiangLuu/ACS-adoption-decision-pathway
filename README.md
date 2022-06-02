@@ -1,4 +1,4 @@
-# ACS-adoption-Pathway
+# ACS-adoption-decision-pathway
 
 [Repository](https://github.com/ThiThuGiangLuu/ACS-adoption-decision-pathway) that includes the input data and R scripts for the analysis of Agro-climate services (ACS) delivery and adoption pathway in farmer groups in Dien Bien, Vietnam
 
@@ -15,7 +15,7 @@ Our data table `diffusion.csv` contains surveyed data.
 `Diffusion.R` contains our full code to run the testing procedure 
 
 ### The survey tool
-`Survey Tool - Final-EN.docx` contains survey questionnaire used for farmer survey.
+`Questionaire.docx` contains survey questionnaire used for farmer survey.
 
 ### The Figure and table folder
 `Figures-tables` folder contains all figures used in the manuscript

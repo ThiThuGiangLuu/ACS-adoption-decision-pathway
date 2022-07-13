@@ -19,4 +19,4 @@ The data table `diffusion.csv` contains surveyed data for general statistics and
 
 ### Supplementary Information 5: Impact pathway validation and detailed results of the testing
 
-`SI5-detailed results of the tests.pdf` constains all detailed results of model testing
+`SI5-detailed results of the tests.pdf` contains all detailed results of model testing
